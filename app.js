@@ -30,7 +30,7 @@ const questions = [{
     type: "list",
     name: "inputRole",
     message: "Please select the role of the employee.",
-    choices: ["Manager", "Engineer", "Intern"],
+    choices: ["Manager", "Engineer", "Intern", "Employee"],
 },
 
 {
@@ -60,6 +60,7 @@ const questions = [{
     }
 },
 
+
 {
     type: "confirm",
     name: "addMore",
@@ -71,22 +72,22 @@ const questions = [{
 
 
 
-async function userInfoPrompt() {
+const ask = async function userInfoPrompt() {
    
     var infoCollected = [];
     var moreEmployee = true;
 
 while (moreEmployee) {
 var answer = await inquire.prompt(questions);
-    var employeeName = answer.inputName;
-    var employeeID = answer.inputID;
-    var employeeRole = answer.inputRole;
-    var employeeEmail = answer.inputEmail;
-    moreEmployee = answer.addMore;
-    var employeeOffice = answer.inputOffice;
-    var employeeGit = answer.inputGit;
-    var employeeSchool = answer.inputSchool;
-    var employee = {};
+    let employeeName = answer.inputName;
+    let employeeID = answer.inputID;
+    let employeeRole = answer.inputRole;
+    let employeeEmail = answer.inputEmail;
+        moreEmployee = answer.addMore;
+    let employeeOffice = answer.inputOffice;
+    let employeeGit = answer.inputGit;
+    let employeeSchool = answer.inputSchool;
+    let employee = {};
     if (employeeRole === "Manager"){    
         employee = {  name: employeeName,
                         id: employeeID,
@@ -105,7 +106,8 @@ var answer = await inquire.prompt(questions);
                     }
         infoCollected.push(employee);
     }
-    else {employee = {  name: employeeName,
+    else if (employeeRole === "Intern") {
+        employee = {  name: employeeName,
                         id: employeeID,
                         role: employeeRole,
                         email: employeeEmail,
@@ -113,15 +115,26 @@ var answer = await inquire.prompt(questions);
                     }
         infoCollected.push(employee);
         }
+    else {employee ={  name: employeeName,
+                            id: employeeID,
+                            role: employeeRole,
+                            email: employeeEmail,
+                    }               
+            infoCollected.push(employee);
+        }
     };
-   
-    console.log(infoCollected);
+   // console.log(infoCollected);
+    return infoCollected;
     };
 
 
-userInfoPrompt();//.then(function(resolve, reject){
+//userInfoPrompt().then(function(response){
+    //console.log(response);
+   // render(response)
+//});
 
-//};
+module.exports = ask;
+
 
 
 // After the user has input all employees desired, call the `render` function (required
